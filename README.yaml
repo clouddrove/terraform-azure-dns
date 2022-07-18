@@ -1,0 +1,63 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+
+# Name of this project
+name: Terraform AZURE DNS
+
+# License of this project
+license: "APACHE"
+
+# Canonical GitHub repo
+github_repo: clouddrove/terraform-azure-dns
+
+# Badges to display
+badges:
+  - name: "Terraform"
+    image: "https://img.shields.io/badge/Terraform-v1.1.7-green"
+    url: "https://www.terraform.io"
+  - name: "Licence"
+    image: "https://img.shields.io/badge/License-APACHE-blue.svg"
+    url: "LICENSE.md"
+
+#  description of this project
+description: |-
+  Terraform module to create DNS resource on AZURE.
+
+# extra content
+include:
+  - "terraform.md"
+
+# How to use this project
+# yamllint disable rule:line-length
+usage: |-
+  ### Simple Example
+  Here is an example of how you can use this module in your inventory structure:
+  ```hcl
+  module "dns" {
+   source     = "clouddrove/dns/azure"
+  name        = "dns"
+  environment = "test"
+  label_order = ["name", "environment", ]
+  domain_name = "mytest.com"
+
+  resource_group_name = module.resource_group.resource_group_name
+
+  a_records = [
+    {
+      name    = "www"
+      records = ["10.10.10.1"]
+      ttl     = 3600
+    },
+    {
+      name    = "myshop"
+      records = ["10.10.10.2"]
+      ttl     = 3600
+    }
+  ]
+
+}
+    ```
