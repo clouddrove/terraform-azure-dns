@@ -1,0 +1,59 @@
+
+
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+
+# Name of this project
+name: Terraform AZURE DNS
+
+# License of this project
+license: "APACHE"
+
+# Canonical GitHub repo
+github_repo: clouddrove/terraform-azure-dns
+
+# Badges to display
+badges:
+  - name: "Terraform"
+    image: "https://img.shields.io/badge/Terraform-v1.0.0-green"
+    url: "https://www.terraform.io"
+  - name: "Licence"
+    image: "https://img.shields.io/badge/License-APACHE-blue.svg"
+    url: "LICENSE.md"
+
+#  description of this project
+description: |-
+  Terraform module to create dns resource on AZURE.
+# extra content
+include:
+  - "terraform.md"
+
+# How to use this project
+# yamllint disable rule:line-length
+usage: |-
+  ### Simple Example
+  Here is an example of how you can use this module in your inventory structure:
+  ```hcl
+    module "dns_zone" {
+     depends_on                   = [module.resource_group, module.vnet]
+     source                       = "clouddrove/dns/azure"
+     label_order                  = ["name", "environment"]
+     name                         = "app"
+     environment                  = "test"
+     resource_group_name          = module.resource_group.resource_group_name
+     enabled_dns                  = true
+     dns_zone_names               = "example.com"
+     private_registration_enabled = false
+     private_dns                  = false
+     private_dns_zone_name        = ""
+     virtual_network_id           = module.vnet.vnet_id
+     a_record_name                = ["test1", "test2"]
+     a_records                    = ["10.10.0.0"]
+     a_record_ttl                 = 3600
+    }
+ 
+    ```
