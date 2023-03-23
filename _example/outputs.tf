@@ -57,3 +57,23 @@ output "dns_a_record_fqdn" {
   description = "The FQDN of the DNS A Record."
   value       = module.dns_zone.dns_a_record_fqdn
 }
+
+output "dns_cname_record_id" {
+  description = " The DNS CNAME Record ID."
+  value       = module.dns_zone.dns_cname_record_id
+}
+
+output "dns_cname_record_fqdn" {
+  description = "The FQDN of the DNS CNAME Record."
+  value       = module.dns_zone.dns_cname_record_fqdn
+}
+
+output "dns_ns_record_id" {
+  description = " The DNS NS Record ID."
+  value       = module.dns_zone.dns_ns_record_id
+}
+
+output "dns_ns_record_fqdn" {
+  description = "The FQDN of the DNS NS Record."
+  value       = module.dns_zone.dns_ns_record_fqdn
+}

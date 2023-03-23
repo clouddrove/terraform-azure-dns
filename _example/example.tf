@@ -42,4 +42,18 @@ module "dns_zone" {
   a_records                    = ["10.10.0.0"]
   a_record_ttl                 = 3600
 
+  cname_records = [{
+    name               = "test1"
+    ttl                = 3600
+    record             = "example.com"
+    target_resource_id = null
+    },
+  ]
+
+  ns_records = [{
+    name    = "test2"
+    ttl     = 3600
+    records = ["ns1.example.com.", "ns2.example.com."]
+  }]
+
 }
