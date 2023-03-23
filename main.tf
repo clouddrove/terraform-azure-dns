@@ -58,3 +58,26 @@ resource "azurerm_dns_a_record" "example" {
   records             = var.a_records
   tags                = module.labels.tags
 }
+
+resource "azurerm_dns_cname_record" "records_cname" {
+  for_each = { for record in var.cname_records : record.name => record } #toset(var.cname_records)
+
+  name                = each.value.name
+  zone_name           = join("", azurerm_dns_zone.dns_zone.*.name)
+  resource_group_name = var.resource_group_name
+  ttl                 = each.value.ttl
+  record              = each.value.record
+  target_resource_id  = each.value.target_resource_id
+
+}
+
+resource "azurerm_dns_ns_record" "records_ns" {
+  for_each = { for record in var.ns_records : record.name => record } #toset(var.ns_records)
+
+  name                = each.value.name
+  zone_name           = join("", azurerm_dns_zone.dns_zone.*.name)
+  resource_group_name = var.resource_group_name
+  ttl                 = each.value.ttl
+  records             = each.value.records
+
+}

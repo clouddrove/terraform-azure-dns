@@ -53,7 +53,28 @@ output "dns_a_record_id" {
   value       = azurerm_dns_a_record.example.*.id
 }
 
+
+output "dns_cname_record_id" {
+  description = " The DNS CNAME Record ID."
+  value       = values(azurerm_dns_cname_record.records_cname).*.id //values(mso_schema_template_bd.bd).*.name
+}
+
+output "dns_ns_record_id" {
+  description = " The DNS NS Record ID."
+  value       = values(azurerm_dns_ns_record.records_ns).*.id
+}
+
 output "dns_a_record_fqdn" {
   description = "The FQDN of the DNS A Record."
   value       = azurerm_dns_a_record.example.*.fqdn
+}
+
+output "dns_cname_record_fqdn" {
+  description = "The FQDN of the DNS CNAME Record."
+  value       = values(azurerm_dns_cname_record.records_cname).*.fqdn
+}
+
+output "dns_ns_record_fqdn" {
+  description = "The FQDN of the DNS NS Record."
+  value       = values(azurerm_dns_ns_record.records_ns).*.fqdn
 }

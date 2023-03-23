@@ -106,3 +106,24 @@ variable "a_record_ttl" {
   type    = number
   default = null
 }
+
+variable "cname_records" {
+  type = list(object({
+    name               = string, #(Required)The name of the DNS CNAME Record. Changing this forces a new resource to be created.
+    ttl                = number, #(Required)The Time To Live (TTL) of the DNS record in seconds.
+    record             = string, #(Optional)The target of the CNAME.
+    target_resource_id = string  #(Optional)The Azure resource id of the target object. Conflicts with record.
+  }))
+  default     = []
+  description = "List of cname records"
+}
+
+variable "ns_records" {
+  type = list(object({
+    name    = string,      #(Required) The name of the DNS NS Record. Changing this forces a new resource to be created.
+    ttl     = number,      # (Required) The Time To Live (TTL) of the DNS record in seconds.
+    records = list(string) #(Required) A list of values that make up the NS record.
+  }))
+  default     = []
+  description = "List of ns records"
+}
