@@ -87,6 +87,19 @@ Here is an example of how you can use this module in your inventory structure:
    a_record_name                = ["test1", "test2"]
    a_records                    = ["10.10.0.0"]
    a_record_ttl                 = 3600
+  cname_records =  [{
+    name = "test1"
+    ttl  = 3600
+    record = "example.com"
+    target_resource_id = null
+   },
+  ]
+
+  ns_records = [{
+    name = "test2"
+    ttl  = 3600
+    records = ["ns1.example.com.","ns2.example.com."]
+  }]
   }
 
   ```
@@ -103,6 +116,7 @@ Here is an example of how you can use this module in your inventory structure:
 | a\_record\_name | n/a | `list(any)` | `[]` | no |
 | a\_record\_ttl | n/a | `number` | `null` | no |
 | a\_records | n/a | `list(string)` | `[]` | no |
+| cname\_records | List of cname records | <pre>list(object({<br>    name               = string, #(Required)The name of the DNS CNAME Record. Changing this forces a new resource to be created.<br>    ttl                = number, #(Required)The Time To Live (TTL) of the DNS record in seconds.<br>    record             = string, #(Optional)The target of the CNAME.<br>    target_resource_id = string  #(Optional)The Azure resource id of the target object. Conflicts with record.<br>  }))</pre> | `[]` | no |
 | dns\_zone\_names | The public dns zone to be created for internal vnet resolution | `string` | `null` | no |
 | enabled | n/a | `bool` | `true` | no |
 | enabled\_dns | n/a | `bool` | `false` | no |
@@ -110,6 +124,7 @@ Here is an example of how you can use this module in your inventory structure:
 | label\_order | Label order, e.g. sequence of application name and environment `name`,`environment`,'attribute' [`webserver`,`qa`,`devops`,`public`,] . | `list(any)` | `[]` | no |
 | managedby | ManagedBy, eg ''. | `string` | `""` | no |
 | name | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
+| ns\_records | List of ns records | <pre>list(object({<br>    name    = string,      #(Required) The name of the DNS NS Record. Changing this forces a new resource to be created.<br>    ttl     = number,      # (Required) The Time To Live (TTL) of the DNS record in seconds.<br>    records = list(string) #(Required) A list of values that make up the NS record.<br>  }))</pre> | `[]` | no |
 | private\_dns | n/a | `bool` | `false` | no |
 | private\_dns\_zone\_name | The private dns zone to be created for internal vnet resolution | `string` | `null` | no |
 | private\_dns\_zone\_vnet\_links | Virtual networks to create Private DNS virtual network links. This enables DNS resolution and registration using Azure Private DNS | `list(string)` | `[]` | no |
@@ -126,6 +141,10 @@ Here is an example of how you can use this module in your inventory structure:
 |------|-------------|
 | dns\_a\_record\_fqdn | The FQDN of the DNS A Record. |
 | dns\_a\_record\_id | The DNS A Record ID. |
+| dns\_cname\_record\_fqdn | The FQDN of the DNS CNAME Record. |
+| dns\_cname\_record\_id | The DNS CNAME Record ID. |
+| dns\_ns\_record\_fqdn | The FQDN of the DNS NS Record. |
+| dns\_ns\_record\_id | The DNS NS Record ID. |
 | dns\_zone\_id | The DNS Zone ID. |
 | dns\_zone\_max\_number\_of\_record\_sets | Maximum number of Records in the zone. Defaults to 1000. |
 | dns\_zone\_name\_servers | A list of values that make up the NS record for the zone. |
