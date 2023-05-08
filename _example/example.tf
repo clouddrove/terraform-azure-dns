@@ -27,7 +27,7 @@ module "vnet" {
 
 module "dns_zone" {
   depends_on                   = [module.resource_group, module.vnet]
-  source                       = "../"
+  source                       = "clouddrove/dns/azure"
   label_order                  = ["name", "environment"]
   name                         = "app"
   environment                  = "test"
