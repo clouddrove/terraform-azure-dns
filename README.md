@@ -119,9 +119,9 @@ Here is an example of how you can use this module in your inventory structure:
 | cname\_records | List of cname records | <pre>list(object({<br>    name               = string, #(Required)The name of the DNS CNAME Record. Changing this forces a new resource to be created.<br>    ttl                = number, #(Required)The Time To Live (TTL) of the DNS record in seconds.<br>    record             = string, #(Optional)The target of the CNAME.<br>    target_resource_id = string  #(Optional)The Azure resource id of the target object. Conflicts with record.<br>  }))</pre> | `[]` | no |
 | dns\_zone\_names | The public dns zone to be created for internal vnet resolution | `string` | `null` | no |
 | enabled | n/a | `bool` | `true` | no |
-| enabled\_dns | n/a | `bool` | `false` | no |
+| enabled\_dns | n/a | `bool` | `true` | no |
 | environment | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
-| label\_order | Label order, e.g. sequence of application name and environment `name`,`environment`,'attribute' [`webserver`,`qa`,`devops`,`public`,] . | `list(any)` | `[]` | no |
+| label\_order | Label order, e.g. sequence of application name and environment `name`,`environment`,'attribute' [`webserver`,`qa`,`devops`,`public`,] . | `list(any)` | <pre>[<br>  "name",<br>  "environment"<br>]</pre> | no |
 | managedby | ManagedBy, eg ''. | `string` | `""` | no |
 | name | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
 | ns\_records | List of ns records | <pre>list(object({<br>    name    = string,      #(Required) The name of the DNS NS Record. Changing this forces a new resource to be created.<br>    ttl     = number,      # (Required) The Time To Live (TTL) of the DNS record in seconds.<br>    records = list(string) #(Required) A list of values that make up the NS record.<br>  }))</pre> | `[]` | no |
