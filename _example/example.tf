@@ -34,17 +34,22 @@ module "dns_zone" {
   private_dns                  = false
   private_dns_zone_name        = ""
   virtual_network_id           = module.vnet.vnet_id
-  a_record_name                = ["test1", "test2"]
-  a_records                    = ["10.10.0.0"]
-  a_record_ttl                 = 3600
+  a_records = [{
+    name    = "test"
+    ttl     = 3600
+    records = ["10.0.180.17", "10.0.180.18"]
+    },
+    {
+      name    = "test2"
+      ttl     = 3600
+      records = ["10.0.180.17", "10.0.180.18"]
+  }]
 
   cname_records = [{
-    name               = "test1"
-    ttl                = 3600
-    record             = "example.com"
-    target_resource_id = null
-    },
-  ]
+    name   = "test1"
+    ttl    = 3600
+    record = "example.com"
+  }]
 
   ns_records = [{
     name    = "test2"

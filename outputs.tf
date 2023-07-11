@@ -50,7 +50,7 @@ output "private_dns_zone_virtual_network_link_id" {
 
 output "dns_a_record_id" {
   description = " The DNS A Record ID."
-  value       = azurerm_dns_a_record.example.*.id
+  value       = values(azurerm_dns_a_record.records_a).*.id
 }
 
 
@@ -66,7 +66,7 @@ output "dns_ns_record_id" {
 
 output "dns_a_record_fqdn" {
   description = "The FQDN of the DNS A Record."
-  value       = azurerm_dns_a_record.example.*.fqdn
+  value       = values(azurerm_dns_a_record.records_a).*.fqdn
 }
 
 output "dns_cname_record_fqdn" {

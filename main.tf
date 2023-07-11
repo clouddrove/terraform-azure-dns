@@ -49,25 +49,26 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_vnet_link"
 }
 
 
-resource "azurerm_dns_a_record" "example" {
-  count               = var.enabled && var.enabled_dns ? length(var.a_record_name) : 0
-  name                = element(var.a_record_name, count.index)
+resource "azurerm_dns_a_record" "records_a" {
+  for_each            = { for record in var.a_records : record.name => record }
+  name                = lookup(each.value, "name", null) # Required
   zone_name           = join("", azurerm_dns_zone.dns_zone.*.name)
   resource_group_name = var.resource_group_name
-  ttl                 = var.a_record_ttl
-  records             = var.a_records
+  ttl                 = lookup(each.value, "ttl", null)                # Required
+  records             = lookup(each.value, "records", null)            # Optional(Conflicts with target_resource_id) {Either records OR target_resource_id must be specified, but not both.}
+  target_resource_id  = lookup(each.value, "target_resource_id", null) # Optional(Conflicts with records) {Either records OR target_resource_id must be specified, but not both.}
   tags                = module.labels.tags
 }
 
 resource "azurerm_dns_cname_record" "records_cname" {
-  for_each = { for record in var.cname_records : record.name => record } #toset(var.cname_records)
-
-  name                = each.value.name
+  for_each            = { for record in var.cname_records : record.name => record } #toset(var.cname_records)
+  name                = lookup(each.value, "name", null)                            # Required
   zone_name           = join("", azurerm_dns_zone.dns_zone.*.name)
   resource_group_name = var.resource_group_name
-  ttl                 = each.value.ttl
-  record              = each.value.record
-  target_resource_id  = each.value.target_resource_id
+  ttl                 = lookup(each.value, "ttl", null)                # Required
+  record              = lookup(each.value, "record", null)             # Optional(Conflicts with target_resource_id) {Either record OR target_resource_id must be specified, but not both.}
+  target_resource_id  = lookup(each.value, "target_resource_id", null) # Optional(Conflicts with record) {Either records OR target_resource_id must be specified, but not both.}
+  tags                = module.labels.tags
 
 }
 
@@ -79,5 +80,5 @@ resource "azurerm_dns_ns_record" "records_ns" {
   resource_group_name = var.resource_group_name
   ttl                 = each.value.ttl
   records             = each.value.records
-
+  tags                = module.labels.tags
 }
