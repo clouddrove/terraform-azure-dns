@@ -3,7 +3,6 @@
 ## Below module will deploy public dns in azure. 
 ##-----------------------------------------------------------------------------
 module "dns_zone" {
-  depends_on                   = [module.resource_group, module.vnet]
   source                       = "../.."
   name                         = "app"
   environment                  = "test"

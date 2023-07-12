@@ -95,13 +95,13 @@ variable "soa_record" {
 
 variable "a_records" {
   type        = any
-  default = []
+  default     = []
   description = "List of a records to be added in azure dns zone."
 }
 
 variable "cname_records" {
-  type = any
-  default = []
+  type        = any
+  default     = []
   description = "List of cname records"
 }
 
