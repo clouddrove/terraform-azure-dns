@@ -95,18 +95,13 @@ variable "soa_record" {
 
 variable "a_records" {
   type        = any
+  default = []
   description = "List of a records to be added in azure dns zone."
 }
 
 variable "cname_records" {
   type = any
-  # type = list(object({
-  #   name               = string, #(Required)The name of the DNS CNAME Record. Changing this forces a new resource to be created.
-  #   ttl                = number, #(Required)The Time To Live (TTL) of the DNS record in seconds.
-  #   record             = string, #(Optional)The target of the CNAME.
-  #   target_resource_id = string  #(Optional)The Azure resource id of the target object. Conflicts with record.
-  # }))
-  # default     = []
+  default = []
   description = "List of cname records"
 }
 

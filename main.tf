@@ -1,3 +1,6 @@
+##----------------------------------------------------------------------------- 
+## Labels module callled that will be used for naming and tags.   
+##-----------------------------------------------------------------------------
 module "labels" {
   source      = "clouddrove/labels/azure"
   name        = var.name
@@ -7,11 +10,16 @@ module "labels" {
   repository  = var.repository
 }
 
-
+##----------------------------------------------------------------------------- 
+## Below resource will deploy random id that will be used for naming in vnet link resource for private dns.    
+##-----------------------------------------------------------------------------
 resource "random_id" "this" {
   byte_length = "8"
 }
 
+##----------------------------------------------------------------------------- 
+## Below resource will deploy public DNS zone in azure.    
+##-----------------------------------------------------------------------------
 resource "azurerm_dns_zone" "dns_zone" {
   count               = var.enabled && var.enabled_dns ? 1 : 0
   name                = var.dns_zone_names
@@ -20,6 +28,9 @@ resource "azurerm_dns_zone" "dns_zone" {
 
 }
 
+##----------------------------------------------------------------------------- 
+## Below resource will deploy private DNS zone in azure.    
+##-----------------------------------------------------------------------------
 resource "azurerm_private_dns_zone" "private_dns_zone" {
   count               = var.enabled && var.private_dns ? 1 : 0
   name                = var.private_dns_zone_name
@@ -38,6 +49,9 @@ resource "azurerm_private_dns_zone" "private_dns_zone" {
   tags = module.labels.tags
 }
 
+##----------------------------------------------------------------------------- 
+## Below resource will deploy vnet link in private dns zone.    
+##-----------------------------------------------------------------------------
 resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_vnet_link" {
   count                 = var.enabled && var.private_dns ? 1 : 0
   name                  = "vnet-link-${random_id.this.hex}"
@@ -48,7 +62,9 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_vnet_link"
   tags                  = module.labels.tags
 }
 
-
+##----------------------------------------------------------------------------- 
+## Below resource will add a_record in DNS zone.   
+##-----------------------------------------------------------------------------
 resource "azurerm_dns_a_record" "records_a" {
   for_each            = { for record in var.a_records : record.name => record }
   name                = lookup(each.value, "name", null) # Required
@@ -60,6 +76,9 @@ resource "azurerm_dns_a_record" "records_a" {
   tags                = module.labels.tags
 }
 
+##----------------------------------------------------------------------------- 
+## Below resource will add cname_record in DNS zone.   
+##-----------------------------------------------------------------------------
 resource "azurerm_dns_cname_record" "records_cname" {
   for_each            = { for record in var.cname_records : record.name => record } #toset(var.cname_records)
   name                = lookup(each.value, "name", null)                            # Required
@@ -72,6 +91,9 @@ resource "azurerm_dns_cname_record" "records_cname" {
 
 }
 
+##----------------------------------------------------------------------------- 
+## Below resource will add ns_record in DNS zone.   
+##-----------------------------------------------------------------------------
 resource "azurerm_dns_ns_record" "records_ns" {
   for_each = { for record in var.ns_records : record.name => record } #toset(var.ns_records)
 
