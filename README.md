@@ -84,22 +84,27 @@ Here is an example of how you can use this module in your inventory structure:
    private_dns                  = false
    private_dns_zone_name        = ""
    virtual_network_id           = module.vnet.vnet_id
-   a_record_name                = ["test1", "test2"]
-   a_records                    = ["10.10.0.0"]
-   a_record_ttl                 = 3600
-  cname_records =  [{
-    name = "test1"
-    ttl  = 3600
-    record = "example.com"
-    target_resource_id = null
-   },
-  ]
+   a_records = [{
+     name    = "test"
+     ttl     =  3600
+     records = ["10.0.180.17","10.0.180.18"]
+    },
+    {
+     name    = "test2"
+     ttl     =  3600
+     records = ["10.0.180.17","10.0.180.18"]
+    }]
+   cname_records =  [{
+     name   = "test1"
+     ttl    = 3600
+     record = "example.com"
+    }]
 
-  ns_records = [{
-    name = "test2"
-    ttl  = 3600
-    records = ["ns1.example.com.","ns2.example.com."]
-  }]
+   ns_records = [{
+     name = "test2"
+     ttl  = 3600
+     records = ["ns1.example.com.","ns2.example.com."]
+    }]
   }
 
   ```
@@ -113,10 +118,8 @@ Here is an example of how you can use this module in your inventory structure:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| a\_record\_name | n/a | `list(any)` | `[]` | no |
-| a\_record\_ttl | n/a | `number` | `null` | no |
-| a\_records | n/a | `list(string)` | `[]` | no |
-| cname\_records | List of cname records | <pre>list(object({<br>    name               = string, #(Required)The name of the DNS CNAME Record. Changing this forces a new resource to be created.<br>    ttl                = number, #(Required)The Time To Live (TTL) of the DNS record in seconds.<br>    record             = string, #(Optional)The target of the CNAME.<br>    target_resource_id = string  #(Optional)The Azure resource id of the target object. Conflicts with record.<br>  }))</pre> | `[]` | no |
+| a\_records | List of a records to be added in azure dns zone. | `any` | `[]` | no |
+| cname\_records | List of cname records | `any` | `[]` | no |
 | dns\_zone\_names | The public dns zone to be created for internal vnet resolution | `string` | `null` | no |
 | enabled | n/a | `bool` | `true` | no |
 | enabled\_dns | n/a | `bool` | `true` | no |
