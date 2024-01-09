@@ -1,12 +1,16 @@
-##----------------------------------------------------------------------------- 
+provider "azurerm" {
+  features {}
+}
+
+##-----------------------------------------------------------------------------
 ## DNS zone module call
-## Below module will deploy public dns in azure. 
+## Below module will deploy public dns in azure.
 ##-----------------------------------------------------------------------------
 module "dns_zone" {
   source                       = "../.."
   name                         = "app"
   environment                  = "test"
-  resource_group_name          = "test-rg"
+  resource_group_name          = "NetworkWatcherRG"
   dns_zone_names               = "example.com"
   private_registration_enabled = false
   private_dns                  = false

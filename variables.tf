@@ -18,7 +18,6 @@ variable "label_order" {
   description = "Label order, e.g. sequence of application name and environment `name`,`environment`,'attribute' [`webserver`,`qa`,`devops`,`public`,] ."
 }
 
-
 variable "managedby" {
   type        = string
   default     = ""
@@ -44,22 +43,10 @@ variable "private_dns_zone_name" {
   description = "The private dns zone to be created for internal vnet resolution"
 }
 
-variable "private_dns_zone_vnet_links" {
-  default     = []
-  type        = list(string)
-  description = "Virtual networks to create Private DNS virtual network links. This enables DNS resolution and registration using Azure Private DNS"
-}
-
 variable "resource_group_name" {
   type        = string
   default     = ""
   description = "The name of the resource group where the Azure DNS resides"
-}
-
-variable "tags" {
-  default     = null
-  type        = map(string)
-  description = "Tags to be passed to created instances"
 }
 
 variable "private_registration_enabled" {
@@ -82,16 +69,16 @@ variable "private_dns" {
   default = false
 }
 variable "virtual_network_id" {
+  type        = string
   default     = ""
   description = "The name of the virtual network"
 }
 
-variable "soa_record" {
+variable "soa_record_private_dns" {
   type        = list(any)
   default     = []
   description = "Customize details about the root block device of the instance. See Block Devices below for details."
 }
-
 
 variable "a_records" {
   type        = any
@@ -113,4 +100,10 @@ variable "ns_records" {
   }))
   default     = []
   description = "List of ns records"
+}
+
+variable "soa_record" {
+  type        = list(any)
+  default     = []
+  description = "Customize details about the root block device of the instance. See Block Devices below for details."
 }

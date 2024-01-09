@@ -18,9 +18,12 @@ github_repo: clouddrove/terraform-azure-dns
 
 # Badges to display
 badges:
-  - name: "Terraform"
-    image: "https://img.shields.io/badge/Terraform-v1.0.0-green"
-    url: "https://www.terraform.io"
+  - name: "Latest Release"
+    image: "https://img.shields.io/github/release/clouddrove/terraform-azure-dns.svg"
+    url: "https://github.com/clouddrove/terraform-azure-dns/releases/latest"
+  - name: "tfsec"
+    image: "https://github.com/clouddrove/terraform-azure-dns/actions/workflows/tfsec.yml/badge.svg"
+    url: "https://github.com/clouddrove/terraform-azure-dns/actions/workflows/tfsec.yml"
   - name: "Licence"
     image: "https://img.shields.io/badge/License-APACHE-blue.svg"
     url: "LICENSE.md"
@@ -73,5 +76,4 @@ usage: |-
        records = ["ns1.example.com.","ns2.example.com."]
       }]
     }
- 
-    ```
+  ```
