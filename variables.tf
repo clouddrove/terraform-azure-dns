@@ -92,8 +92,8 @@ variable "a_records" {
 
 variable "cname_records" {
   type = list(object({
-    name    = string
-    ttl     = number
+    name   = string
+    ttl    = number
     record = string
   }))
   default     = []
