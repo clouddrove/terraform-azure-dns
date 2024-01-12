@@ -99,7 +99,6 @@ resource "azurerm_dns_cname_record" "records_cname" {
   record              = lookup(each.value, "record", null)             # Optional(Conflicts with target_resource_id) {Either record OR target_resource_id must be specified, but not both.}
   target_resource_id  = lookup(each.value, "target_resource_id", null) # Optional(Conflicts with record) {Either records OR target_resource_id must be specified, but not both.}
   tags                = module.labels.tags
-
 }
 
 ##-----------------------------------------------------------------------------
