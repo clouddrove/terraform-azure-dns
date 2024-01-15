@@ -45,7 +45,7 @@ module "dns_zone" {
   name                         = local.name
   environment                  = local.environment
   resource_group_name          = module.resource_group.resource_group_name
-  dns_zone_names               = "example.com"
+  dns_zone_names               = "cdexample.com"
   private_registration_enabled = false
   private_dns                  = false
   private_dns_zone_name        = ""
