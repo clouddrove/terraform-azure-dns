@@ -13,8 +13,11 @@
 
 <p align="center">
 
-<a href="https://www.terraform.io">
-  <img src="https://img.shields.io/badge/Terraform-v1.0.0-green" alt="Terraform">
+<a href="https://github.com/clouddrove/terraform-azure-dns/releases/latest">
+  <img src="https://img.shields.io/github/release/clouddrove/terraform-azure-dns.svg" alt="Latest Release">
+</a>
+<a href="https://github.com/clouddrove/terraform-azure-dns/actions/workflows/tfsec.yml">
+  <img src="https://github.com/clouddrove/terraform-azure-dns/actions/workflows/tfsec.yml/badge.svg" alt="tfsec">
 </a>
 <a href="LICENSE.md">
   <img src="https://img.shields.io/badge/License-APACHE-blue.svg" alt="Licence">
@@ -100,8 +103,7 @@ Here is an example of how you can use this module in your inventory structure:
      records = ["ns1.example.com.","ns2.example.com."]
     }]
   }
-
-  ```
+```
 
 
 
@@ -112,24 +114,23 @@ Here is an example of how you can use this module in your inventory structure:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| a\_records | List of a records to be added in azure dns zone. | `any` | `[]` | no |
-| cname\_records | List of cname records | `any` | `[]` | no |
+| a\_records | List of a records to be added in azure dns zone. | <pre>list(object({<br>    name    = string<br>    ttl     = number<br>    records = list(string)<br>  }))</pre> | `[]` | no |
+| cname\_records | List of cname records | <pre>list(object({<br>    name   = string<br>    ttl    = number<br>    record = string<br>  }))</pre> | `[]` | no |
 | dns\_zone\_names | The public dns zone to be created for internal vnet resolution | `string` | `null` | no |
 | enabled | n/a | `bool` | `true` | no |
 | enabled\_dns | n/a | `bool` | `true` | no |
 | environment | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
-| label\_order | Label order, e.g. sequence of application name and environment `name`,`environment`,'attribute' [`webserver`,`qa`,`devops`,`public`,] . | `list(any)` | <pre>[<br>  "name",<br>  "environment"<br>]</pre> | no |
+| label\_order | Label order, e.g. sequence of application name and environment `name`,`environment`,'attribute' [`webserver`,`qa`,`devops`,`public`,] . | `list(string)` | <pre>[<br>  "name",<br>  "environment"<br>]</pre> | no |
 | managedby | ManagedBy, eg ''. | `string` | `""` | no |
 | name | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
 | ns\_records | List of ns records | <pre>list(object({<br>    name    = string,      #(Required) The name of the DNS NS Record. Changing this forces a new resource to be created.<br>    ttl     = number,      # (Required) The Time To Live (TTL) of the DNS record in seconds.<br>    records = list(string) #(Required) A list of values that make up the NS record.<br>  }))</pre> | `[]` | no |
 | private\_dns | n/a | `bool` | `false` | no |
 | private\_dns\_zone\_name | The private dns zone to be created for internal vnet resolution | `string` | `null` | no |
-| private\_dns\_zone\_vnet\_links | Virtual networks to create Private DNS virtual network links. This enables DNS resolution and registration using Azure Private DNS | `list(string)` | `[]` | no |
 | private\_registration\_enabled | Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? | `bool` | `true` | no |
 | repository | Terraform current module repo | `string` | `""` | no |
 | resource\_group\_name | The name of the resource group where the Azure DNS resides | `string` | `""` | no |
-| soa\_record | Customize details about the root block device of the instance. See Block Devices below for details. | `list(any)` | `[]` | no |
-| tags | Tags to be passed to created instances | `map(string)` | `null` | no |
+| soa\_record | Customize details about the root block device of the instance. See Block Devices below for details. | `list(object({}))` | `[]` | no |
+| soa\_record\_private\_dns | Customize details about the root block device of the instance. See Block Devices below for details. | `list(object({}))` | `[]` | no |
 | virtual\_network\_id | The name of the virtual network | `string` | `""` | no |
 
 ## Outputs
