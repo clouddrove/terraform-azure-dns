@@ -8,7 +8,7 @@ locals {
   label_order = ["name", "environment", ]
 }
 
-##----------------------------------------------------------------------------- 
+##-----------------------------------------------------------------------------
 ## Resource Group module call
 ## Resource group in which all resources will be deployed.
 ##-----------------------------------------------------------------------------
@@ -21,23 +21,23 @@ module "resource_group" {
   location    = "East US"
 }
 
-##----------------------------------------------------------------------------- 
+##-----------------------------------------------------------------------------
 ## Vnet module call
 ##-----------------------------------------------------------------------------
 module "vnet" {
   depends_on          = [module.resource_group]
   source              = "clouddrove/vnet/azure"
-  version             = "1.0.3"
+  version             = "1.0.4"
   name                = local.name
   environment         = local.environment
   resource_group_name = module.resource_group.resource_group_name
   location            = module.resource_group.resource_group_location
-  address_space       = "10.0.0.0/16"
+  address_spaces      = ["10.0.0.0/16"]
 }
 
-##----------------------------------------------------------------------------- 
+##-----------------------------------------------------------------------------
 ## DNS zone module call
-## Below module will deploy public dns in azure. 
+## Below module will deploy public dns in azure.
 ##-----------------------------------------------------------------------------
 module "dns_zone" {
   depends_on                   = [module.resource_group, module.vnet]
@@ -45,7 +45,7 @@ module "dns_zone" {
   name                         = local.name
   environment                  = local.environment
   resource_group_name          = module.resource_group.resource_group_name
-  dns_zone_names               = "example.com"
+  dns_zone_names               = "cdexample.com"
   private_registration_enabled = false
   private_dns                  = false
   private_dns_zone_name        = ""

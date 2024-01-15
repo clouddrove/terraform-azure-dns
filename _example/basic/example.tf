@@ -1,6 +1,10 @@
-##----------------------------------------------------------------------------- 
+provider "azurerm" {
+  features {}
+}
+
+##-----------------------------------------------------------------------------
 ## DNS zone module call
-## Below module will deploy public dns in azure. 
+## Below module will deploy public dns in azure.
 ##-----------------------------------------------------------------------------
 module "dns_zone" {
   source                       = "../.."
