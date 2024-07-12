@@ -36,7 +36,7 @@ resource "azurerm_dns_zone" "dns_zone" {
 ## Below resource will add a_record in DNS zone.
 ##-----------------------------------------------------------------------------
 resource "azurerm_dns_a_record" "records_a" {
-  for_each            = var.enabled ? { for record in var.a_records : record.name => record } : {}
+  for_each            = var.enabled && var.enabled_dns ? { for record in var.a_records : record.name => record } : {}
   name                = lookup(each.value, "name", null) # Required
   zone_name           = azurerm_dns_zone.dns_zone[0].name
   resource_group_name = var.resource_group_name
@@ -50,7 +50,7 @@ resource "azurerm_dns_a_record" "records_a" {
 ## Below resource will add cname_record in DNS zone.
 ##-----------------------------------------------------------------------------
 resource "azurerm_dns_cname_record" "records_cname" {
-  for_each            = var.enabled ? { for record in var.cname_records : record.name => record } : {}
+  for_each            = var.enabled && var.enabled_dns ? { for record in var.cname_records : record.name => record } : {}
   name                = lookup(each.value, "name", null) # Required
   zone_name           = azurerm_dns_zone.dns_zone[0].name
   resource_group_name = var.resource_group_name
@@ -64,7 +64,7 @@ resource "azurerm_dns_cname_record" "records_cname" {
 ## Below resource will add ns_record in DNS zone.
 ##-----------------------------------------------------------------------------
 resource "azurerm_dns_ns_record" "records_ns" {
-  for_each            = var.enabled ? { for record in var.ns_records : record.name => record } : {}
+  for_each            = var.enabled && var.enabled_dns ? { for record in var.ns_records : record.name => record } : {}
   name                = each.value.name
   zone_name           = azurerm_dns_zone.dns_zone[0].name
   resource_group_name = var.resource_group_name
@@ -105,4 +105,37 @@ resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_vnet_link"
   registration_enabled  = var.private_registration_enabled
   virtual_network_id    = var.virtual_network_id
   tags                  = module.labels.tags
+}
+
+##-----------------------------------------------------------------------------
+## Below resource will deploy vnet link in private dns zone.
+##-----------------------------------------------------------------------------
+resource "azurerm_private_dns_zone_virtual_network_link" "private_dns_vnet_link_addon" {
+  count                 = var.enabled && var.private_dns && var.addon_virtual_network_id != null ? 1 : 0
+  name                  = format("%s-vnet-link-addon", module.labels.id)
+  resource_group_name   = var.resource_group_name
+  private_dns_zone_name = azurerm_private_dns_zone.private_dns_zone[0].name
+  registration_enabled  = var.private_registration_enabled
+  virtual_network_id    = var.addon_virtual_network_id
+  tags                  = module.labels.tags
+}
+
+
+resource "azurerm_private_dns_cname_record" "private_record_cname" {
+  for_each            = var.enabled && var.private_dns ? { for record in var.private_cname_records : record.name => record } : {}
+  name                = each.value.name
+  zone_name           = azurerm_private_dns_zone.private_dns_zone[0].name
+  resource_group_name = var.resource_group_name
+  ttl                 = lookup(each.value, "ttl", null)
+  record              = lookup(each.value, "record", null)
+}
+
+resource "azurerm_private_dns_a_record" "private_record_a" {
+  for_each            = var.enabled && var.private_dns ? { for record in var.private_a_records : record.name => record } : {}
+  name                = "test"
+  zone_name           = azurerm_private_dns_zone.private_dns_zone[0].name
+  resource_group_name = var.resource_group_name
+  ttl                 = lookup(each.value, "ttl", null)
+  records             = lookup(each.value, "records", null)
+  tags                = module.labels.tags
 }

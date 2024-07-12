@@ -51,8 +51,8 @@ variable "resource_group_name" {
 
 variable "private_registration_enabled" {
   type        = bool
-  default     = true
-  description = "Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled?"
+  default     = false
+  description = "Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? Default to false"
 }
 variable "enabled" {
   type    = bool
@@ -74,6 +74,12 @@ variable "virtual_network_id" {
   description = "The name of the virtual network"
 }
 
+variable "addon_virtual_network_id" {
+  type        = string
+  default     = null
+  description = "The name of the virtual network"
+}
+
 variable "soa_record_private_dns" {
   type        = list(object({}))
   default     = []
@@ -90,7 +96,27 @@ variable "a_records" {
   description = "List of a records to be added in azure dns zone."
 }
 
+variable "private_a_records" {
+  type = list(object({
+    name    = string
+    ttl     = number
+    records = list(string)
+  }))
+  default     = []
+  description = "List of cname records"
+}
+
 variable "cname_records" {
+  type = list(object({
+    name   = string
+    ttl    = number
+    record = string
+  }))
+  default     = []
+  description = "List of cname records"
+}
+
+variable "private_cname_records" {
   type = list(object({
     name   = string
     ttl    = number
