@@ -1,5 +1,6 @@
 provider "azurerm" {
   features {}
+  subscription_id = "068245d4-3c94-42fe-9c4d-9e5e1cabc60c"
 }
 
 locals {
@@ -47,7 +48,6 @@ module "dns_zone" {
   resource_group_name          = module.resource_group.resource_group_name
   dns_zone_names               = "cdexample.com"
   private_registration_enabled = false
-  private_dns                  = false
   virtual_network_id           = module.vnet.vnet_id
   a_records = [{
     name    = "test"

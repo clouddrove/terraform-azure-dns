@@ -1,5 +1,6 @@
 provider "azurerm" {
   features {}
+  subscription_id = "068245d4-3c94-42fe-9c4d-9e5e1cabc60c"
 }
 
 locals {
@@ -39,15 +40,15 @@ module "vnet" {
 ## DNS zone module call
 ## Below module will deploy public dns in azure.
 ##-----------------------------------------------------------------------------
-module "dns_zone" {
+module "private_dns_zone" {
   depends_on            = [module.resource_group, module.vnet]
   source                = "../.."
   name                  = local.name
   environment           = local.environment
   resource_group_name   = module.resource_group.resource_group_name
-  enabled_dns           = false
-  private_dns           = true
-  private_dns_zone_name = "cloddrovearchitd.com"
+  enable_private_dns    = true
+  enable_public_dns     = false
+  private_dns_zone_name = "internaldns.com"
   virtual_network_id    = module.vnet.vnet_id
   private_a_records = [{
     name    = "test"

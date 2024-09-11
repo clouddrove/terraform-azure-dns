@@ -54,19 +54,17 @@ variable "private_registration_enabled" {
   default     = false
   description = "Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? Default to false"
 }
-variable "enabled" {
-  type    = bool
-  default = true
+
+variable "enable_public_dns" {
+  type        = bool
+  default     = true
+  description = "Flag to control creation of public dns"
 }
 
-variable "enabled_dns" {
-  type    = bool
-  default = true
-}
-
-variable "private_dns" {
-  type    = bool
-  default = false
+variable "enable_private_dns" {
+  type        = bool
+  default     = false
+  description = "Flag to control creation of private dns"
 }
 variable "virtual_network_id" {
   type        = string

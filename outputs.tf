@@ -19,22 +19,22 @@ output "dns_zone_max_number_of_record_sets" {
 }
 
 output "private_dns_zone_id" {
-  value       = try(var.enabled && var.private_dns, azurerm_private_dns_zone.private_dns_zone[0].id, null)
+  value       = try(azurerm_private_dns_zone.private_dns_zone[0].id, null)
   description = "The Private DNS Zone ID."
 }
 
 output "private_dns_zone_number_of_record_sets" {
-  value       = try(var.enabled && var.private_dns, azurerm_private_dns_zone.private_dns_zone[0].number_of_record_sets, null)
+  value       = try(azurerm_private_dns_zone.private_dns_zone[0].number_of_record_sets, null)
   description = "The current number of record sets in this Private DNS zone."
 }
 
 output "private_dns_zone_max_number_of_record_sets" {
-  value       = try(var.enabled && var.private_dns, azurerm_private_dns_zone.private_dns_zone[0].max_number_of_record_sets, null)
+  value       = try(azurerm_private_dns_zone.private_dns_zone[0].max_number_of_record_sets, null)
   description = "The maximum number of record sets that can be created in this Private DNS zone."
 }
 
 output "private_dns_zone_max_number_of_virtual_network_links" {
-  value       = try(var.enabled && var.private_dns, azurerm_private_dns_zone.private_dns_zone[0].max_number_of_virtual_network_links, null)
+  value       = try(azurerm_private_dns_zone.private_dns_zone[0].max_number_of_virtual_network_links, null)
   description = "The maximum number of virtual networks that can be linked to this Private DNS zone."
 }
 
