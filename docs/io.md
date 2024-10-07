@@ -41,4 +41,3 @@
 | private\_dns\_zone\_max\_number\_of\_virtual\_network\_links\_with\_registration | The maximum number of virtual networks that can be linked to this Private DNS zone with registration enabled. |
 | private\_dns\_zone\_number\_of\_record\_sets | The current number of record sets in this Private DNS zone. |
 | private\_dns\_zone\_virtual\_network\_link\_id | The ID of the Private DNS Zone Virtual Network Link. |
-
