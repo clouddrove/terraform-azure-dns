@@ -51,26 +51,36 @@ variable "resource_group_name" {
 
 variable "private_registration_enabled" {
   type        = bool
+  default     = false
+  description = "Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? Default to false"
+}
+
+variable "enable" {
+  type        = bool
   default     = true
-  description = "Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled?"
-}
-variable "enabled" {
-  type    = bool
-  default = true
+  description = "Flag to control complete module creation."
 }
 
-variable "enabled_dns" {
-  type    = bool
-  default = true
+variable "enable_public_dns" {
+  type        = bool
+  default     = true
+  description = "Flag to control creation of public dns"
 }
 
-variable "private_dns" {
-  type    = bool
-  default = false
+variable "enable_private_dns" {
+  type        = bool
+  default     = false
+  description = "Flag to control creation of private dns"
 }
 variable "virtual_network_id" {
   type        = string
   default     = ""
+  description = "The name of the virtual network"
+}
+
+variable "addon_virtual_network_id" {
+  type        = string
+  default     = null
   description = "The name of the virtual network"
 }
 
@@ -90,7 +100,27 @@ variable "a_records" {
   description = "List of a records to be added in azure dns zone."
 }
 
+variable "private_a_records" {
+  type = list(object({
+    name    = string
+    ttl     = number
+    records = list(string)
+  }))
+  default     = []
+  description = "List of cname records"
+}
+
 variable "cname_records" {
+  type = list(object({
+    name   = string
+    ttl    = number
+    record = string
+  }))
+  default     = []
+  description = "List of cname records"
+}
+
+variable "private_cname_records" {
   type = list(object({
     name   = string
     ttl    = number
