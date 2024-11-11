@@ -3,18 +3,21 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | a\_records | List of a records to be added in azure dns zone. | <pre>list(object({<br>    name    = string<br>    ttl     = number<br>    records = list(string)<br>  }))</pre> | `[]` | no |
+| addon\_virtual\_network\_id | The name of the virtual network | `string` | `null` | no |
 | cname\_records | List of cname records | <pre>list(object({<br>    name   = string<br>    ttl    = number<br>    record = string<br>  }))</pre> | `[]` | no |
 | dns\_zone\_names | The public dns zone to be created for internal vnet resolution | `string` | `null` | no |
-| enabled | n/a | `bool` | `true` | no |
-| enabled\_dns | n/a | `bool` | `true` | no |
+| enable | Flag to control complete module creation. | `bool` | `true` | no |
+| enable\_private\_dns | Flag to control creation of private dns | `bool` | `false` | no |
+| enable\_public\_dns | Flag to control creation of public dns | `bool` | `true` | no |
 | environment | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
 | label\_order | Label order, e.g. sequence of application name and environment `name`,`environment`,'attribute' [`webserver`,`qa`,`devops`,`public`,] . | `list(string)` | <pre>[<br>  "name",<br>  "environment"<br>]</pre> | no |
 | managedby | ManagedBy, eg ''. | `string` | `""` | no |
 | name | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
 | ns\_records | List of ns records | <pre>list(object({<br>    name    = string,      #(Required) The name of the DNS NS Record. Changing this forces a new resource to be created.<br>    ttl     = number,      # (Required) The Time To Live (TTL) of the DNS record in seconds.<br>    records = list(string) #(Required) A list of values that make up the NS record.<br>  }))</pre> | `[]` | no |
-| private\_dns | n/a | `bool` | `false` | no |
+| private\_a\_records | List of cname records | <pre>list(object({<br>    name    = string<br>    ttl     = number<br>    records = list(string)<br>  }))</pre> | `[]` | no |
+| private\_cname\_records | List of cname records | <pre>list(object({<br>    name   = string<br>    ttl    = number<br>    record = string<br>  }))</pre> | `[]` | no |
 | private\_dns\_zone\_name | The private dns zone to be created for internal vnet resolution | `string` | `null` | no |
-| private\_registration\_enabled | Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? | `bool` | `true` | no |
+| private\_registration\_enabled | Is auto-registration of virtual machine records in the virtual network in the Private DNS zone enabled? Default to false | `bool` | `false` | no |
 | repository | Terraform current module repo | `string` | `""` | no |
 | resource\_group\_name | The name of the resource group where the Azure DNS resides | `string` | `""` | no |
 | soa\_record | Customize details about the root block device of the instance. See Block Devices below for details. | `list(object({}))` | `[]` | no |
